@@ -23,11 +23,7 @@
 `/pages/Home.js`
 
 ```js
-const Home = () => {
-    return (
-        <Board characterMain="Homer Simpson"/>
-    )
-}
+const Home = () => <Board characterMain="Homer Simpson"/>
 ```
 
 ##### Props:
@@ -35,14 +31,11 @@ const Home = () => {
 `/containers/Board.js`
 
 ```js
-const Board = (props) => {
-    const { characterMain } = props
-    return (
-        <div>
-            <h1>{characterMain}</h1>
-        </div>
-    )
-}
+const Board = ({ characterMain }) => (
+    <div>
+        <h1>{characterMain}</h1>
+    </div>
+)
 
 Board.propTypes = {
     characterMain: PropTypes.string
@@ -86,7 +79,7 @@ class Board extends React.Component {
             <div>
                 <Background />
                 <h1>{characterMain}</h1>
-                {characters.map(character => <div key={`char-${character}`}>{character}</div>)}
+                {characters.map((character, index) => <div key={`char-${index}`}>{character}</div>)}
             </div>
         )
     }
@@ -112,7 +105,7 @@ setNewCharacters = () => {
 > Tip: currying
 
 ```js
-setNewCharacters = (data) => () => {
+setNewCharacters = data => () => {
         this.setState({
             characters: data
         })
@@ -132,14 +125,12 @@ setNewCharacters = (data) => () => {
 `/components/Character.js` [file](https://github.com/larrotta69/react-workshop/blob/first-session/src/components/Character.js)
 
 ```js
-const Character = (props) => {
-    const { src, name, posX, zIndex, isMain } = props
-    return (
+const Character = ({ src, name, posX, zIndex, isMain }) =>
+    (
         <StyledCharacter posX={posX} zIndex={zIndex} isMain={isMain}>
             <img src={src} alt={name}/>
         </StyledCharacter>
     )
-}
 /*
     Character Styles
 */
@@ -158,7 +149,7 @@ const StyledCharacter = styled.li`
 `/containers/Board.js`
 
 ```js
-componentDidMount() {
+    componentDidMount() {
         axios.get('https://simpsons-api.herokuapp.com/characters')
         .then(response => {
             this.setState({
@@ -235,11 +226,11 @@ const isMain = character.name.toLowerCase() === characterMain
 `/HOC/index.js`
 
 ```js
-export const withLayout = Component => props => {
-    return <Layout>
-        <Component {...props} />
-    </Layout>
-}
+export const withLayout = Component => props => (
+        <Layout>
+            <Component {...props} />
+        </Layout>
+    )
 ```
 
 `/pages/Home.js`

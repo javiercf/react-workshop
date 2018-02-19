@@ -8,6 +8,7 @@ export const box = () => `
 `
 
 const mediaQuery = generateMedia(sizes)
+
 export const media = {
     mobile: mediaQuery.lessThan('mobile'),
     medium: mediaQuery.greaterThan('mobile'),
